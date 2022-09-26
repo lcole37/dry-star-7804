@@ -5,4 +5,5 @@
 
 <% @doctor.doctor_patients.each do |dp| %>
   <li> <%= dp.patient.name %> </li>
+  <%= link_to "delete #{dp.patient.name}", doctor_doctor_patient_path(@doctor.id, dp.id), method: :delete %>
 <% end %>
