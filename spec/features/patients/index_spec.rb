@@ -29,6 +29,7 @@ RSpec.describe 'As a visitor' do
     it "I see the names of all adult patients (age is greater than 18)" do
       visit patients_path
 
+      expect(page).to have_content("Patients Index Page")
       expect(page).to have_content(@mike.name)
       expect(page).to have_content(@fran.name)
       expect(page).to have_content(@stan.name)
