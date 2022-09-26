@@ -133,6 +133,28 @@ RSpec.describe 'As a visitor' do
         expect(page).not_to have_content(@mike.name)
         expect(page).to_not have_link("delete #{@mike.name}")
       end
+        #extra testing: edge functionality
+      it "delete button does not delete patient alltogether" do
+        visit doctor_path(@larry)
+
+        click_link("delete #{@fran.name}")
+          # fran delete from doc 1
+        expect(page).not_to have_content(@fran.name)
+        expect(page).to_not have_link("delete #{@fran.name}")
+
+        visit doctor_path(@mary)
+          #doc 2 should still have fran as patient
+        expect(page).to have_content(@fran.name)
+        expect(page).to have_link("delete #{@fran.name}")
+          # delete fran from doc 2
+        click_link("delete #{@fran.name}")
+        expect(page).not_to have_content(@fran.name)
+        expect(page).to_not have_link("delete #{@fran.name}")
+
+        visit patients_path
+          #fran should still appear on patients index
+        expect(page).to have_content(@fran.name)
+      end
     end
   end
 end
