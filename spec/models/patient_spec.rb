@@ -14,14 +14,14 @@ RSpec.describe Patient, type: :model do
       @billy = Patient.create(name: "Billy", age: "15") #child
       @mike = Patient.create(name: "Mike", age: "25")
     end
-    
+
     describe 'sorted_adult_patients' do
       it "sorts adult (18+) patients by name" do
         patients = Patient.all
 
-        expect(patients.sorted_adult_patients).to eq([@fran, @mike, @stan])
-        expect(patients.sorted_adult_patients).not_to eq([@lilly, @stan, @fran, @billy, @mike]) #all
-        expect(patients.sorted_adult_patients).not_to eq([@stan, @fran, @mike]) #all adults unsorted
+        expect(patients.alpha_adult_patients).to eq([@fran, @mike, @stan])
+        expect(patients.alpha_adult_patients).not_to eq([@lilly, @stan, @fran, @billy, @mike]) #all
+        expect(patients.alpha_adult_patients).not_to eq([@stan, @fran, @mike]) #all adults unsorted
       end
     end
   end
