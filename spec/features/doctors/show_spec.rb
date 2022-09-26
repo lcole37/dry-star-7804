@@ -52,7 +52,7 @@ RSpec.describe 'As a visitor' do
       expect(page).to_not have_content("University: #{@larry.university}")
     end
 
-    xit "And I see the name of the hospital where this doctor works" do
+    it "And I see the name of the hospital where this doctor works" do
       visit doctor_path(@larry)
 
       expect(page).to have_content(@larry.hospital.name)
@@ -64,7 +64,7 @@ RSpec.describe 'As a visitor' do
       expect(page).to_not have_content(@larry.hospital.name)
     end
 
-    xit "And I see the names of all of the patients this doctor has" do
+    it "And I see the names of all of the patients this doctor has" do
       visit doctor_path(@larry)
 
       expect(page).to have_content(@stan.name)
