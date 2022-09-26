@@ -81,5 +81,58 @@ RSpec.describe 'As a visitor' do
       expect(page).not_to have_content(@billy.name)
       expect(page).not_to have_content(@stan.name)
     end
+
+    it "Next to each patient's name, I see a button to remove that patient from that doctor's caseload" do
+      visit doctor_path(@larry)
+
+      expect(page).to have_link("delete #{@stan.name}")
+      expect(page).to have_link("delete #{@fran.name}")
+      expect(page).to have_link("delete #{@billy.name}")
+      expect(page).not_to have_link("delete #{@mike.name}")
+      expect(page).not_to have_link("delete #{@lilly.name}")
+
+      visit doctor_path(@mary)
+
+      expect(page).to have_link("delete #{@fran.name}")
+      expect(page).to have_link("delete #{@mike.name}")
+      expect(page).to have_link("delete #{@lilly.name}")
+      expect(page).to_not have_link("delete #{@stan.name}")
+      expect(page).to_not have_link("delete #{@billy.name}")
+    end
+
+    describe 'When I click that button for one patient' do
+      it "I'm brought back to the Doctor's show page" do
+        visit doctor_path(@larry)
+
+        click_link("delete #{@stan.name}")
+
+        expect(page.current_path).to eq(doctor_path(@larry))
+
+        visit doctor_path(@mary)
+
+        click_link("delete #{@mike.name}")
+
+        expect(page.current_path).to eq(doctor_path(@mary))
+
+      end
+      it "And I no longer see that patient's name listed" do
+        visit doctor_path(@larry)
+
+        click_link("delete #{@stan.name}")
+
+        expect(page.current_path).to eq(doctor_path(@larry))
+        expect(page).not_to have_content(@stan.name)
+        expect(page).to_not have_link("delete #{@stan.name}")
+
+
+        visit doctor_path(@mary)
+
+        click_link("delete #{@mike.name}")
+
+        expect(page.current_path).to eq(doctor_path(@mary))
+        expect(page).not_to have_content(@mike.name)
+        expect(page).to_not have_link("delete #{@mike.name}")
+      end
+    end
   end
 end
